@@ -3,7 +3,7 @@ import {map, Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Country} from "../common/country";
 import {State} from "../common/state";
-import { environment } from 'src/environments/environment';
+import {environment} from "../../environments/environment";
 
 interface GetResponseCountries {
   _embedded: {
@@ -19,8 +19,8 @@ interface GetResponseStates {
   providedIn: 'root'
 })
 export class Luv2ShopFormService {
-  private countriesUrl = environment.puresoundApiUrl + '/countries'
-  private statesUrl = environment.puresoundApiUrl + '/states'
+  private countriesUrl = environment.luv2shopApiUrl + '/countries'
+  private statesUrl = environment.luv2shopApiUrl + '/states'
   constructor(private httpClient:HttpClient) { }
 
   getCountries():Observable<Country[]> {

@@ -1,14 +1,13 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OktaAuthService } from '@okta/okta-angular';
-import { from, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {from, Observable} from "rxjs";
+import {OktaAuthService} from "@okta/okta-angular";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthInterceptorService implements HttpInterceptor {
-
+export class AuthInterceptorService implements HttpInterceptor{
   constructor(private oktaAuth: OktaAuthService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -18,7 +17,8 @@ export class AuthInterceptorService implements HttpInterceptor {
   private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
 
     //Only add an access token for secured endpoints
-    const securedEndpoints = [environment.puresoundApiUrl + '/orders'];
+    const theEndpoint = environment.luv2shopApiUrl + '/orders';
+    const securedEndpoints = [theEndpoint];
 
     if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
 
@@ -34,6 +34,6 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     }
 
-    return <any>(next.handle(request).toPromise());
+    return <any>(await next.handle(request).toPromise());
   }
 }

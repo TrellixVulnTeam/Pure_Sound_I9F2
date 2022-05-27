@@ -65,4 +65,8 @@ public class Product {
     @UpdateTimestamp
     @Column(name = "last_updated")
     private Date lastUpdated;
+
+    @Column(name = "youtube_link")
+    private String youtubeLink;
+
 }

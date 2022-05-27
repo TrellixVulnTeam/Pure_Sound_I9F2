@@ -13,6 +13,7 @@ import com.hcl.entity.Product;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,29 +22,44 @@ import org.slf4j.LoggerFactory;
 
 import javax.transaction.Transactional;
 import java.util.*;
-
+@Slf4j
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
 
-    Logger logger = LoggerFactory.getLogger(CheckoutServiceImpl.class);
 
     private CustomerRepository customerRepository;
 
     @Autowired
     private ProductRepository productRepository;
 
-    public CheckoutServiceImpl(CustomerRepository customerRepository, @Value("${stripe.key.secret}") String secretKey) {
 
+
+    public CheckoutServiceImpl(CustomerRepository customerRepository,
+                               @Value("${stripe.key.secret}") String secretKey) {
         this.customerRepository = customerRepository;
 
-        // initilize strupe API with secrey key
+        // initialize stripe api with secret key
         Stripe.apiKey = secretKey;
+    }
+
+    @Override
+    public PaymentIntent createPaymentIntent(PaymentInfo paymentInfo) throws StripeException {
+        List<String> paymentMethodTypes = new ArrayList<>();
+        paymentMethodTypes.add("card");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("amount", paymentInfo.getAmount());
+        params.put("currency", paymentInfo.getCurrency());
+        params.put("payment_method_types", paymentMethodTypes);
+        params.put("description", "PureSound Purchase");
+        params.put("receipt_email", paymentInfo.getReceiptEmail());
+        return PaymentIntent.create(params);
     }
 
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
-        // Albums to be logged for change
+        // ALbums to be logged for change
         StringBuilder albums = new StringBuilder();
         // retrieve the order info from dto
         Order order = purchase.getOrder();
@@ -63,14 +79,11 @@ public class CheckoutServiceImpl implements CheckoutService {
         // populate customer with order
         Customer customer = purchase.getCustomer();
 
-
-        //check if this is an existing customer
+        // check if this is an existing customer
         String theEmail = customer.getEmail();
-
         Customer customerFromDB = customerRepository.findByEmail(theEmail);
 
-        if(customerFromDB != null) {
-            // found them now assign it accordingly
+        if (customerFromDB != null) {
             customer = customerFromDB;
         }
 
@@ -91,24 +104,11 @@ public class CheckoutServiceImpl implements CheckoutService {
 
 
         // Double logging because there is a weird bug that logstash skips the last logged item
-        logger.info("The following album(s) have been purchased: " + albums);
-        logger.info("The following album(s) have been purchased: " + albums);
+        log.info("The following album(s) have been purchased: " + albums);
+        log.info("The following album(s) have been purchased: " + albums);
 
         // return a response
         return new PurchaseResponse(orderTrackingNumber);
-    }
-
-    @Override
-    public PaymentIntent createPaymentIntent(PaymentInfo paymentInfo) throws StripeException {
-        List<String> paymentMethodTypes = new ArrayList<>();
-        paymentMethodTypes.add("card");
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("amount", paymentInfo.getAmount());
-        params.put("currency", paymentInfo.getCurrency());
-        params.put("payment_method_types", paymentMethodTypes);
-        params.put("receipt_email", paymentInfo.getReceiptEmail());
-        return PaymentIntent.create(params);
     }
 
     private String generateOrderTrackingNumber() {

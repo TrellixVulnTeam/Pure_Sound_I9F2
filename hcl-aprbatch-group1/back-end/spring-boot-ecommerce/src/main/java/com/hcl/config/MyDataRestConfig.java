@@ -17,7 +17,6 @@ import java.util.Set;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
-
     @Value("${allowed.origins}")
     private String[] theAllowedOrigins;
 
@@ -29,7 +28,6 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
-        //RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
         HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH};
         // disable HTTP methods for Classes: PUT, POST AND DELETE
         disableHTTPMethods(Product.class, config, theUnsupportedActions);
@@ -37,10 +35,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHTTPMethods(Country.class, config, theUnsupportedActions);
         disableHTTPMethods(State.class, config, theUnsupportedActions);
         disableHTTPMethods(Order.class, config, theUnsupportedActions);
-
         // call an internal  helper method
         exposedIds(config);
 
+        // configure cors mapping
         cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
 

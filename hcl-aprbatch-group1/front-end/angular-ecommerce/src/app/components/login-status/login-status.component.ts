@@ -7,12 +7,9 @@ import {OktaAuthService} from "@okta/okta-angular";
   styleUrls: ['./login-status.component.css']
 })
 export class LoginStatusComponent implements OnInit {
-
+  storage: Storage = sessionStorage;
   isAuthenticated: boolean = false;
   userFullName:string
-
-  storage: Storage = sessionStorage;
-
   constructor(private oktaAuthService:OktaAuthService) { }
 
   ngOnInit(): void {
@@ -34,11 +31,11 @@ export class LoginStatusComponent implements OnInit {
         // @ts-ignore
         this.userFullName = res.name.split(" ")[0];
 
-        // get user email
+        // retrieve the user's email from authentication response
         const theEmail = res.email;
 
-        //store it in session
-        this.storage.setItem('userEmail', JSON.stringify(theEmail));
+        // now store the email in browser storage
+        this.storage.setItem('userEmail', JSON.stringify(theEmail))
       }
     )
   }

@@ -27,7 +27,7 @@
     "@types/backbone": "^1.4.15",
     "bootstrap": "^5.1.3",
     "rxjs": "~7.5.0",
-    "stripe": "^9.4.0",
+    "stripe": "^9.2.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
