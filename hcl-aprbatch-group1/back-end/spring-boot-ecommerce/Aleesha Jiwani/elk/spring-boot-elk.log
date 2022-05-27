@@ -23,3 +23,9 @@
 2022-05-26 10:02:03.416  INFO 13612 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8443 (https) with context path ''
 2022-05-26 10:02:03.429  INFO 13612 --- [restartedMain] com.hcl.SpringBootEcommerceApplication   : Started SpringBootEcommerceApplication in 15.208 seconds (JVM running for 16.822)
 2022-05-26 10:24:01.147  WARN 13612 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m6s17ms422µs800ns).
+2022-05-26 12:32:46.366  WARN 13612 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m13s247ms35µs300ns).
+2022-05-26 13:43:33.762  WARN 13612 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m16s744ms924µs100ns).
+2022-05-26 16:02:22.193  WARN 13612 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=50m17s68ms291µs600ns).
+2022-05-26 18:22:16.746  INFO 13612 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-05-26 18:22:16.796  INFO 13612 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-05-26 18:22:16.822  INFO 13612 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
