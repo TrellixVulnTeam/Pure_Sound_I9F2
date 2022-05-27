@@ -7,6 +7,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { FormsModule } from '@angular/forms' ;
 import { ReactiveFormsModule} from '@angular/forms';
 import { RouterTestingModule } from "@angular/router/testing";
+import { environment } from 'src/environments/environment.prod';
+
 
 describe('CheckoutComponent', () => {
   let component: CheckoutComponent;
@@ -21,7 +23,8 @@ describe('CheckoutComponent', () => {
       return {
         elements: () => ({
           create: () => ({
-            mount: () => ({ /* your card */ })
+            mount: () => ({ }),
+            on: () =>({})
           })
         })
       }
@@ -50,4 +53,3 @@ describe('CheckoutComponent', () => {
     function async(arg0: () => void): jasmine.ImplementationCallback {
       throw new Error('Function not implemented.');
     }
-

@@ -13,6 +13,7 @@ import {ProductCategory} from "../../common/product-category";
 })
 export class ProductDetailsComponent implements OnInit {
   product:Product = new Product();
+  productImgUrl:String = "";
   constructor(private productService: ProductService,
               private cartService: CartService,
               private route: ActivatedRoute) { }
@@ -31,6 +32,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.getProduct(theProductId).subscribe(
       data => {
         this.product = data;
+        this.productImgUrl = data.imageUrl.split('/')[3];
       }
     )
   }
